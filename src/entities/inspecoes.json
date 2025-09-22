@@ -1,0 +1,106 @@
+
+{
+  "name": "inspecoes",
+  "options": {
+    "validator": {
+      "$jsonSchema": {
+        "bsonType": "object",
+        "title": "Inspecao",
+        "description": "Inspeções realizadas nos extintores",
+        "additionalProperties": true,
+        "required": ["extintorId", "inspetorId", "dataInspecao", "resultado", "checklist", "creator", "createdAt", "updatedAt"],
+        "properties": {
+          "extintorId": {
+            "bsonType": "string",
+            "description": "ID do extintor inspecionado"
+          },
+          "inspetorId": {
+            "bsonType": "string",
+            "description": "ID do usuário inspetor"
+          },
+          "dataInspecao": {
+            "bsonType": "string",
+            "title": "datetime",
+            "description": "Data e hora da inspeção"
+          },
+          "resultado": {
+            "bsonType": "string",
+            "enum": ["conforme", "nao_conforme"],
+            "description": "Resultado geral da inspeção"
+          },
+          "checklist": {
+            "bsonType": "object",
+            "required": ["manometro", "rotulo", "lacre", "sinalizacao", "danos", "obstrucoes", "fixacao", "validade"],
+            "properties": {
+              "manometro": {
+                "bsonType": "bool",
+                "description": "Ponteiro do manômetro na faixa verde"
+              },
+              "rotulo": {
+                "bsonType": "bool",
+                "description": "Rótulo legível"
+              },
+              "lacre": {
+                "bsonType": "bool",
+                "description": "Lacre intacto"
+              },
+              "sinalizacao": {
+                "bsonType": "bool",
+                "description": "Extintor em local adequado"
+              },
+              "danos": {
+                "bsonType": "bool",
+                "description": "Ausência de danos físicos"
+              },
+              "obstrucoes": {
+                "bsonType": "bool",
+                "description": "Ausência de obstruções"
+              },
+              "fixacao": {
+                "bsonType": "bool",
+                "description": "Extintor corretamente fixado"
+              },
+              "validade": {
+                "bsonType": "bool",
+                "description": "Extintor dentro da validade"
+              }
+            }
+          },
+          "observacoes": {
+            "bsonType": "string",
+            "maxLength": 1000,
+            "description": "Observações da inspeção"
+          },
+          "fotos": {
+            "bsonType": "array",
+            "items": {
+              "bsonType": "string"
+            },
+            "description": "URLs das fotos da inspeção"
+          },
+          "proximaInspecao": {
+            "bsonType": "string",
+            "title": "datetime",
+            "description": "Data programada para próxima inspeção"
+          },
+          "creator": {
+            "bsonType": "string",
+            "description": "Usuário que criou o registro"
+          },
+          "createdAt": {
+            "bsonType": "string",
+            "title": "datetime",
+            "description": "Data de criação ISO 8601"
+          },
+          "updatedAt": {
+            "bsonType": "string",
+            "title": "datetime",
+            "description": "Data de atualização ISO 8601"
+          }
+        }
+      }
+    },
+    "validationLevel": "moderate",
+    "validationAction": "warn"
+  }
+}

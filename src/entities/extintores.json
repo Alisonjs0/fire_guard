@@ -1,0 +1,96 @@
+
+{
+  "name": "extintores",
+  "options": {
+    "validator": {
+      "$jsonSchema": {
+        "bsonType": "object",
+        "title": "Extintor",
+        "description": "Equipamentos extintores de incêndio",
+        "additionalProperties": true,
+        "required": ["numeroIdentificacao", "unidadeId", "localizacao", "tipoAgente", "classeIncendio", "capacidade", "dataFabricacao", "dataValidade", "fabricante", "status", "creator", "createdAt", "updatedAt"],
+        "properties": {
+          "numeroIdentificacao": {
+            "bsonType": "string",
+            "minLength": 3,
+            "maxLength": 50,
+            "description": "Número único de identificação do extintor"
+          },
+          "unidadeId": {
+            "bsonType": "string",
+            "description": "ID da unidade onde está localizado"
+          },
+          "localizacao": {
+            "bsonType": "string",
+            "minLength": 5,
+            "maxLength": 200,
+            "description": "Localização específica do extintor"
+          },
+          "tipoAgente": {
+            "bsonType": "string",
+            "enum": ["po_abc", "co2", "agua", "espuma", "po_quimico"],
+            "description": "Tipo de agente extintor"
+          },
+          "classeIncendio": {
+            "bsonType": "string",
+            "enum": ["A", "B", "C", "AB", "BC", "ABC"],
+            "description": "Classes de incêndio que o extintor combate"
+          },
+          "capacidade": {
+            "bsonType": "string",
+            "description": "Capacidade do extintor (ex: 4kg, 6L)"
+          },
+          "dataFabricacao": {
+            "bsonType": "string",
+            "title": "datetime",
+            "description": "Data de fabricação do extintor"
+          },
+          "dataValidade": {
+            "bsonType": "string",
+            "title": "datetime",
+            "description": "Data de validade do extintor"
+          },
+          "fabricante": {
+            "bsonType": "string",
+            "maxLength": 100,
+            "description": "Fabricante do extintor"
+          },
+          "status": {
+            "bsonType": "string",
+            "enum": ["conforme", "nao_conforme", "vencido", "manutencao"],
+            "description": "Status atual do extintor"
+          },
+          "qrCode": {
+            "bsonType": "string",
+            "description": "Código QR para identificação"
+          },
+          "codigoBarras": {
+            "bsonType": "string",
+            "description": "Código de barras do extintor"
+          },
+          "observacoes": {
+            "bsonType": "string",
+            "maxLength": 1000,
+            "description": "Observações gerais"
+          },
+          "creator": {
+            "bsonType": "string",
+            "description": "Usuário que criou o registro"
+          },
+          "createdAt": {
+            "bsonType": "string",
+            "title": "datetime",
+            "description": "Data de criação ISO 8601"
+          },
+          "updatedAt": {
+            "bsonType": "string",
+            "title": "datetime",
+            "description": "Data de atualização ISO 8601"
+          }
+        }
+      }
+    },
+    "validationLevel": "moderate",
+    "validationAction": "warn"
+  }
+}

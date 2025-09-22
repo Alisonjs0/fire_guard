@@ -1,0 +1,89 @@
+
+{
+  "name": "manutencoes",
+  "options": {
+    "validator": {
+      "$jsonSchema": {
+        "bsonType": "object",
+        "title": "Manutencao",
+        "description": "Manutenções dos extintores",
+        "additionalProperties": true,
+        "required": ["extintorId", "tipo", "status", "dataAgendada", "tecnicoResponsavel", "empresaManutencao", "descricaoServico", "creator", "createdAt", "updatedAt"],
+        "properties": {
+          "extintorId": {
+            "bsonType": "string",
+            "description": "ID do extintor"
+          },
+          "tipo": {
+            "bsonType": "string",
+            "enum": ["preventiva", "corretiva", "recarga", "teste_hidrostatico"],
+            "description": "Tipo de manutenção"
+          },
+          "status": {
+            "bsonType": "string",
+            "enum": ["agendada", "em_andamento", "concluida", "cancelada"],
+            "description": "Status da manutenção"
+          },
+          "dataAgendada": {
+            "bsonType": "string",
+            "title": "datetime",
+            "description": "Data agendada para manutenção"
+          },
+          "dataRealizada": {
+            "bsonType": "string",
+            "title": "datetime",
+            "description": "Data em que foi realizada"
+          },
+          "tecnicoResponsavel": {
+            "bsonType": "string",
+            "maxLength": 100,
+            "description": "Nome do técnico responsável"
+          },
+          "empresaManutencao": {
+            "bsonType": "string",
+            "maxLength": 100,
+            "description": "Empresa que realizou a manutenção"
+          },
+          "descricaoServico": {
+            "bsonType": "string",
+            "maxLength": 500,
+            "description": "Descrição do serviço realizado"
+          },
+          "custo": {
+            "bsonType": "number",
+            "minimum": 0,
+            "description": "Custo da manutenção"
+          },
+          "observacoes": {
+            "bsonType": "string",
+            "maxLength": 1000,
+            "description": "Observações da manutenção"
+          },
+          "anexos": {
+            "bsonType": "array",
+            "items": {
+              "bsonType": "string"
+            },
+            "description": "URLs de anexos (certificados, notas fiscais)"
+          },
+          "creator": {
+            "bsonType": "string",
+            "description": "Usuário que criou o registro"
+          },
+          "createdAt": {
+            "bsonType": "string",
+            "title": "datetime",
+            "description": "Data de criação ISO 8601"
+          },
+          "updatedAt": {
+            "bsonType": "string",
+            "title": "datetime",
+            "description": "Data de atualização ISO 8601"
+          }
+        }
+      }
+    },
+    "validationLevel": "moderate",
+    "validationAction": "warn"
+  }
+}
