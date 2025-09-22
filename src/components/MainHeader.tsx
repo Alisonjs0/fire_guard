@@ -14,6 +14,7 @@ interface MainHeaderProps {
   secondButtonIcon?: React.ReactNode;
   badgeValue?: number;
   badgeClassName?: string;
+  children?: React.ReactNode;
 }
 
 const MainHeader: React.FC<MainHeaderProps> = ({
@@ -30,6 +31,7 @@ const MainHeader: React.FC<MainHeaderProps> = ({
   secondButtonIcon,
   badgeValue,
   badgeClassName = "h-6 w-6 flex items-center justify-center bg-red-500 text-white text-sm font-bold rounded-full mt-1",
+  children,
 }) => {
   return (
     <motion.div
@@ -49,6 +51,7 @@ const MainHeader: React.FC<MainHeaderProps> = ({
           {subtitle && <p className="text-gray-600 mt-2">{subtitle}</p>}
         </div>
         <div className="mt-4 md:mt-0 flex items-center gap-4">
+          {children && <div className="mt-4 md:mt-0">{children}</div>}
           {showSecondButton && (
             <button
               onClick={onSecondButtonClick}
