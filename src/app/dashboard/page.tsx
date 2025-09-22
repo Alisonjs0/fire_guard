@@ -203,7 +203,23 @@ const Dashboard: React.FC = () => {
           "dd/MM/yyyy",
           { locale: ptBR }
         )}`}
-      />
+        showButton={true}
+        buttonText="Exportar"
+        buttonIcon={<Download className="w-4 h-4" />}
+      >
+        <div className="flex items-center space-x-4">
+          <select
+            value={selectedPeriod}
+            onChange={(e) => setSelectedPeriod(e.target.value)}
+            className="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          >
+            <option value="week">Esta Semana</option>
+            <option value="month">Este Mês</option>
+            <option value="quarter">Este Trimestre</option>
+            <option value="year">Este Ano</option>
+          </select>
+        </div>
+      </MainHeader>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Alertas críticos */}
