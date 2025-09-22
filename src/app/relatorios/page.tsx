@@ -7,6 +7,7 @@ import { ptBR } from 'date-fns/locale'
 import {FileText, Download, Filter, Calendar, BarChart3, PieChart, TrendingUp, TrendingDown, Users, MapPin, Wrench, Eye, AlertTriangle, CheckCircle, XCircle, Clock, DollarSign} from 'lucide-react'
 import { useCRUD } from '../../hooks/useCRUD'
 import { Extintor, Inspecao, Manutencao, Unidade } from '../../types'
+import MainHeader from '@/components/MainHeader'
 
 const Relatorios: React.FC = () => {
   const { data: extintores } = useCRUD<Extintor>('extintores')
@@ -165,28 +166,16 @@ const Relatorios: React.FC = () => {
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-xl shadow-sm p-6 mb-6"
-        >
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-                <FileText className="text-blue-600" />
-                Relatórios
-              </h1>
-              <p className="text-gray-600 mt-2">Análises e estatísticas do sistema</p>
-            </div>
-            <button
-              onClick={exportarRelatorio}
-              className="mt-4 lg:mt-0 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-colors"
-            >
-              <Download size={20} />
-              Exportar Relatório
-            </button>
-          </div>
-        </motion.div>
+        <MainHeader
+          icon={<FileText className="text-blue-600" />}
+          textHeader="Relatórios"
+          subtitle="Análises e estatísticas do sistema"
+          showButton={true}
+          buttonText="Exportar Relatório"
+          buttonIcon={<Download size={20} />}
+          
+        />
+
 
         {/* Filtros */}
         <motion.div 

@@ -7,6 +7,7 @@ import { ptBR } from 'date-fns/locale'
 import {AlertTriangle, Clock, CheckCircle, XCircle, Bell, Calendar, Filter, Search, Eye, EyeOff, Trash2, Settings, Download, RefreshCw, AlertCircle, Info, Zap} from 'lucide-react'
 import { useCRUD } from '../../hooks/useCRUD'
 import { Extintor, Inspecao, Manutencao } from '../../types'
+import MainHeader from '@/components/MainHeader'
 
 interface Alert {
   id: string
@@ -243,40 +244,20 @@ const Alertas: React.FC = () => {
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-xl shadow-sm p-6 mb-6"
-        >
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-                <Bell className="text-red-600" />
-                Alertas
-                {stats.naoLidos > 0 && (
-                  <span className="bg-red-600 text-white text-sm px-2 py-1 rounded-full">
-                    {stats.naoLidos}
-                  </span>
-                )}
-              </h1>
-              <p className="text-gray-600 mt-2">Monitore alertas e notificações do sistema</p>
-            </div>
-            <div className="flex items-center gap-3 mt-4 md:mt-0">
-              <button className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg flex items-center gap-2 transition-colors">
-                <RefreshCw size={20} />
-                Atualizar
-              </button>
-              <button 
-                onClick={() => setShowSettings(true)}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
-              >
-                <Settings size={20} />
-                Configurar
-              </button>
-            </div>
-          </div>
-        </motion.div>
-
+        <MainHeader
+          icon={<Bell className="w-8 h-8 text-red-600" />}
+          textHeader="Alertas"
+          badgeValue={stats.naoLidos}
+          subtitle="Monitore alertas e notificações do sistema"
+          buttonIcon={<Settings size={20} />}
+          buttonText='Configurar'
+          showButton={true}
+          onButtonClick={() => setShowSettings(true)}
+          secondButtonIcon={<RefreshCw size={20} />}
+          secondButtonText='Atualizar'
+          showSecondButton={true}
+          onSecondButtonClick={() => {/* Lógica para atualizar */}}
+        />
         {/* Stats Cards */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}

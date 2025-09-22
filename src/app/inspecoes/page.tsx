@@ -32,6 +32,7 @@ import { useCRUD } from "../../hooks/useCRUD";
 import { Extintor, Inspecao, Unidade, Checklist } from "../../types";
 import { format, isToday, isThisWeek, isThisMonth } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import MainHeader from "../../components/MainHeader";
 
 const InspecoesPage: React.FC = () => {
   const {
@@ -247,43 +248,22 @@ const InspecoesPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       {/* Header */}
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-xl shadow-sm p-6 mb-6 flex justify-between items-center"
-          >
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
-              <div>
-                <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-                  <Eye className="w-8 h-8 text-red-600" />
-                  Inspeções
-                </h1>
-                <p className="text-gray-600 mt-2">
-                  Controle e registro de inspeções
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-4">
-              <button className="flex items-center space-x-2 px-4 py-2 text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">
-                <Download className="w-4 h-4" />
-                <span>Exportar</span>
-              </button>
-
-              <button
-                onClick={() => {
-                  resetForm();
-                  setEditingInspecao(null);
-                  setShowForm(true);
-                }}
-                className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                <Plus className="w-4 h-4" />
-                <span>Nova Inspeção</span>
-              </button>
-            </div>
-          </motion.div>
-        </div>
+      <div className="max-w-7xl mx-auto">
+        <MainHeader
+          icon={<Eye className="w-8 h-8 text-red-600" />}
+          textHeader="Inspeções"
+          subtitle="Controle e registro de inspeções"
+          showButton={true}
+          buttonText="Nova Inspeção"
+          buttonIcon={<Plus className="w-4 h-4" />}
+          onButtonClick={() => setShowForm(true)}
+          showSecondButton={true}
+          secondButtonText="Exportar"
+          secondButtonIcon={<Download className="w-4 h-4" />}
+          onSecondButtonClick={() => {resetForm(); setEditingInspecao(null); setShowForm(true)}}
+          
+        />
+      </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Estatísticas */}

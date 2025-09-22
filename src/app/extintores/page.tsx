@@ -17,6 +17,7 @@ import { useCRUD } from "../../hooks/useCRUD";
 import { Extintor, Unidade } from "../../types";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import MainHeader from "@/components/MainHeader";
 
 const ExtintoresPage: React.FC = () => {
   // Utilitários para renderização dos cards
@@ -159,33 +160,18 @@ const ExtintoresPage: React.FC = () => {
     <div className="min-h-screen bg-gray-50 p-6">
       {/* Header aprimorado */}
       <div className="max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-xl shadow-sm p-6 mb-6"
-        >
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-                <Shield className="w-8 h-8 text-red-600" />
-                Gerenciamento de Extintores
-              </h1>
-              <p className="text-gray-600 mt-2">
-                Cadastro e controle de equipamentos
-              </p>
-            </div>
-            <button
-              onClick={() => {
-                setEditingExtintor(null);
-                setShowForm(true);
-              }}
-              className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              <Plus className="w-5 h-5" />
-              <span>Novo Extintor</span>
-            </button>
-          </div>
-        </motion.div>
+        <MainHeader
+          icon={<Shield className="w-8 h-8 text-red-600" />}
+          textHeader="Extintores"
+          subtitle="Cadastro e controle de equipamentos"
+          showButton={true}
+          buttonText="Novo Extintor"
+          buttonIcon={<Plus className="w-5 h-5" />}
+          onButtonClick={() => {
+            setEditingExtintor(null);
+            setShowForm(true);
+          }}
+        />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
