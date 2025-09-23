@@ -13,6 +13,8 @@ import {
   FileText,
   Calendar,
   ChevronRight,
+  House,
+  FireExtinguisher
 } from "lucide-react";
 import MainHeader from "@/components/MainHeader";
 
@@ -21,7 +23,7 @@ const Dashboard: React.FC = () => {
     {
       title: "Extintores",
       description: "Cadastro e gerenciamento de extintores",
-      icon: Shield,
+      icon: FireExtinguisher,
       href: "/extintores",
       color: "bg-primary-500",
       stats: "45 Ativos",
@@ -79,9 +81,9 @@ const Dashboard: React.FC = () => {
     <div className="min-h-screen bg-gray-50 p-6">
       {/* Header */}
       <MainHeader
+        icon={<House className="text-red-600" />}
         textHeader="SGE"
         subtitle="Sistema de Gerenciamento de Extintores"
-        icon={<Shield className="w-6 h-6 text-red-500" />}
       >
         <div className="flex items-center space-x-4">
           <button className="p-2 text-gray-400 hover:text-gray-600 transition-colors">

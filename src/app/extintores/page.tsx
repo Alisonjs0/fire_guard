@@ -12,6 +12,7 @@ import {
   MapPin,
   Calendar,
   AlertTriangle,
+  FireExtinguisher
 } from "lucide-react";
 import { useCRUD } from "../../hooks/useCRUD";
 import { Extintor, Unidade } from "../../types";
@@ -161,7 +162,7 @@ const ExtintoresPage: React.FC = () => {
       {/* Header aprimorado */}
       <div className="max-w-7xl mx-auto">
         <MainHeader
-          icon={<Shield className="w-8 h-8 text-red-600" />}
+          icon={<FireExtinguisher className="w-8 h-8 text-red-600" />}
           textHeader="Extintores"
           subtitle="Cadastro e controle de equipamentos"
           showButton={true}
@@ -244,7 +245,7 @@ const ExtintoresPage: React.FC = () => {
               <div className="flex justify-between items-start mb-4">
                 <div className="flex items-center space-x-3">
                   <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <Shield className="w-6 h-6 text-blue-600" />
+                    <FireExtinguisher className="w-6 h-6 text-blue-600" />
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900">
@@ -327,7 +328,7 @@ const ExtintoresPage: React.FC = () => {
             animate={{ opacity: 1 }}
             className="text-center py-12"
           >
-            <Shield className="mx-auto h-12 w-12 text-gray-400" />
+            <FireExtinguisher className="mx-auto h-12 w-12 text-gray-400" />
             <h3 className="mt-2 text-sm font-medium text-gray-900">
               Nenhum extintor encontrado
             </h3>

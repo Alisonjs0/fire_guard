@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import {LayoutDashboard, Shield, Eye, Wrench, Bell, FileText, Menu, X, User, Settings, LogOut} from 'lucide-react'
+import {LayoutDashboard, Shield, Eye, Wrench, Bell, FileText, Menu, X, User, Settings, LogOut, House, FireExtinguisher} from 'lucide-react'
 // import { useAuth } from '../hooks/useAuth'
 
 interface LayoutProps {
@@ -25,8 +25,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   }
 
   const navigation = [
+    { name: "Home", href: "/", icon: House },
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-    { name: 'Extintores', href: '/extintores', icon: Shield },
+    { name: 'Extintores', href: '/extintores', icon: FireExtinguisher },
     { name: 'Inspeções', href: '/inspecoes', icon: Eye },
     { name: 'Manutenções', href: '/manutencoes', icon: Wrench },
     { name: 'Alertas', href: '/alertas', icon: Bell },
@@ -50,10 +51,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 lg:static lg:inset-0
       `}>
         <div className="flex items-center justify-between h-16 px-6 border-b border-gray-200">
-          <div className="flex items-center gap-3">
-            <Shield className="h-8 w-8 text-red-600" />
+          <Link className="flex items-center gap-3" href={"/"}>
+            <Shield className="h-8 w-8 text-red-600"/>
             <span className="text-xl font-bold text-gray-900">FireGuard</span>
-          </div>
+          </Link>
           <button
             onClick={() => setSidebarOpen(false)}
             className="lg:hidden p-2 rounded-md text-gray-400 hover:text-gray-600"

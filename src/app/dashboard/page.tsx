@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   Shield,
+  LayoutDashboard,
+  FireExtinguisher,
   AlertTriangle,
   CheckCircle,
   Clock,
@@ -196,7 +198,7 @@ const Dashboard: React.FC = () => {
     <div className="min-h-screen bg-gray-50 p-6">
       {/* Header aprimorado */}
       <MainHeader
-        icon={<Shield className="text-red-600" />}
+        icon={<LayoutDashboard className="text-red-600 w-8 h-8" />}
         textHeader="Dashboard de Controle"
         subtitle={`Sistema de Gerenciamento de Extintores ${format(
           new Date(),
@@ -283,7 +285,7 @@ const Dashboard: React.FC = () => {
             {
               titulo: "Total de Extintores",
               valor: stats.totalExtintores,
-              icon: Shield,
+              icon: FireExtinguisher,
               cor: "blue",
               descricao: "Equipamentos cadastrados",
             },
@@ -325,7 +327,7 @@ const Dashboard: React.FC = () => {
             >
               <div className="flex items-center justify-between">
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-gray-600 mb-1">
+                  <p className="text-sm font-medium text-gray-600 mb-1 h-10">
                     {stat.titulo}
                   </p>
                   <p className="text-3xl font-bold text-gray-900 mb-1">
