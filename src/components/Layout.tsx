@@ -36,6 +36,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   const isActive = (href: string) => pathname === href
 
+  const isLoginPage = pathname === '/login'
+
+  if (isLoginPage) {
+    return <>{children}</>
+  }
+
   return (
     <div className="min-h-screen  flex">
       {sidebarOpen && (
