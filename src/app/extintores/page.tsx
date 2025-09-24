@@ -354,21 +354,220 @@ const ExtintoresPage: React.FC = () => {
                 </h3>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* ...form fields unchanged... */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Número de Identificação *
+                      </label>
+                      <input
+                        name="numeroIdentificacao"
+                        type="text"
+                        defaultValue={editingExtintor?.numeroIdentificacao || ''}
+                        required
+                        className="input-field"
+                        placeholder="Ex: EXT-001"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Unidade *
+                      </label>
+                      <select
+                        name="unidadeId"
+                        defaultValue={editingExtintor?.unidadeId || ''}
+                        required
+                        className="input-field"
+                      >
+                        <option value="">Selecione uma unidade</option>
+                        {unidades.map(unidade => (
+                          <option key={unidade._id} value={unidade._id}>
+                            {unidade.nome}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    
+                    <div className="md:col-span-2">
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Localização *
+                      </label>
+                      <input
+                        name="localizacao"
+                        type="text"
+                        defaultValue={editingExtintor?.localizacao || ''}
+                        required
+                        className="input-field"
+                        placeholder="Ex: Corredor principal - Próximo à recepção"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Tipo de Agente *
+                      </label>
+                      <select
+                        name="tipoAgente"
+                        defaultValue={editingExtintor?.tipoAgente || ''}
+                        required
+                        className="input-field"
+                      >
+                        <option value="">Selecione o tipo</option>
+                        <option value="po_abc">Pó ABC</option>
+                        <option value="co2">CO2</option>
+                        <option value="agua">Água</option>
+                        <option value="espuma">Espuma</option>
+                        <option value="po_quimico">Pó Químico</option>
+                      </select>
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Classe de Incêndio *
+                      </label>
+                      <select
+                        name="classeIncendio"
+                        defaultValue={editingExtintor?.classeIncendio || ''}
+                        required
+                        className="input-field"
+                      >
+                        <option value="">Selecione a classe</option>
+                        <option value="A">Classe A</option>
+                        <option value="B">Classe B</option>
+                        <option value="C">Classe C</option>
+                        <option value="AB">Classe AB</option>
+                        <option value="BC">Classe BC</option>
+                        <option value="ABC">Classe ABC</option>
+                      </select>
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Capacidade *
+                      </label>
+                      <input
+                        name="capacidade"
+                        type="text"
+                        defaultValue={editingExtintor?.capacidade || ''}
+                        required
+                        className="input-field"
+                        placeholder="Ex: 4kg, 6L"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Fabricante *
+                      </label>
+                      <input
+                        name="fabricante"
+                        type="text"
+                        defaultValue={editingExtintor?.fabricante || ''}
+                        required
+                        className="input-field"
+                        placeholder="Nome do fabricante"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Data de Fabricação *
+                      </label>
+                      <input
+                        name="dataFabricacao"
+                        type="date"
+                        defaultValue={editingExtintor?.dataFabricacao ? 
+                          new Date(editingExtintor.dataFabricacao).toISOString().split('T')[0] : ''
+                        }
+                        required
+                        className="input-field"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Data de Validade *
+                      </label>
+                      <input
+                        name="dataValidade"
+                        type="date"
+                        defaultValue={editingExtintor?.dataValidade ? 
+                          new Date(editingExtintor.dataValidade).toISOString().split('T')[0] : ''
+                        }
+                        required
+                        className="input-field"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Status *
+                      </label>
+                      <select
+                        name="status"
+                        defaultValue={editingExtintor?.status || 'conforme'}
+                        required
+                        className="input-field"
+                      >
+                        <option value="conforme">Conforme</option>
+                        <option value="nao_conforme">Não Conforme</option>
+                        <option value="vencido">Vencido</option>
+                        <option value="manutencao">Em Manutenção</option>
+                      </select>
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        QR Code
+                      </label>
+                      <input
+                        name="qrCode"
+                        type="text"
+                        defaultValue={editingExtintor?.qrCode || ''}
+                        className="input-field"
+                        placeholder="Código QR"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Código de Barras
+                      </label>
+                      <input
+                        name="codigoBarras"
+                        type="text"
+                        defaultValue={editingExtintor?.codigoBarras || ''}
+                        className="input-field"
+                        placeholder="Código de barras"
+                      />
+                    </div>
+                    
+                    <div className="md:col-span-2">
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Observações
+                      </label>
+                      <textarea
+                        name="observacoes"
+                        rows={3}
+                        defaultValue={editingExtintor?.observacoes || ''}
+                        className="input-field"
+                        placeholder="Observações gerais sobre o extintor..."
+                      />
+                    </div>
                   </div>
+                  
                   <div className="flex justify-end space-x-4 pt-6 border-t border-gray-200">
                     <button
                       type="button"
-                      onClick={() => {
-                        setShowForm(false);
-                        setEditingExtintor(null);
-                      }}
+                      onClick={() => { setShowForm(false); setEditingExtintor(null) }}
                       className="btn-secondary"
                     >
                       Cancelar
                     </button>
-                    <button type="submit" className="btn-primary">
-                      {editingExtintor ? "Atualizar" : "Criar"} Extintor
+                    <button
+                      type="submit"
+                      className="btn-primary"
+                    >
+                      {editingExtintor ? 'Atualizar' : 'Criar'} Extintor
                     </button>
                   </div>
                 </form>
