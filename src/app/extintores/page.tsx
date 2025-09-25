@@ -113,8 +113,6 @@ const ExtintoresPage: React.FC = () => {
       dataValidade: formData.get("dataValidade") as string,
       fabricante: formData.get("fabricante") as string,
       status: formData.get("status") as string,
-      qrCode: formData.get("qrCode") as string,
-      codigoBarras: formData.get("codigoBarras") as string,
       observacoes: formData.get("observacoes") as string,
       creator: "admin",
       createdAt: new Date().toISOString(),
@@ -514,32 +512,7 @@ const ExtintoresPage: React.FC = () => {
                         <option value="manutencao">Em Manutenção</option>
                       </select>
                     </div>
-                    
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        QR Code
-                      </label>
-                      <input
-                        name="qrCode"
-                        type="text"
-                        defaultValue={editingExtintor?.qrCode || ''}
-                        className="input-field"
-                        placeholder="Código QR"
-                      />
-                    </div>
-                    
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Código de Barras
-                      </label>
-                      <input
-                        name="codigoBarras"
-                        type="text"
-                        defaultValue={editingExtintor?.codigoBarras || ''}
-                        className="input-field"
-                        placeholder="Código de barras"
-                      />
-                    </div>
+                  
                     
                     <div className="md:col-span-2">
                       <label className="block text-sm font-medium text-gray-700 mb-2">
