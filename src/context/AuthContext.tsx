@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import authService from '@/service/authService';
 import getMyProfile from '@/service/userService';
 import { IUser } from "@/interface/IUser";
@@ -33,7 +33,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<IUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -69,9 +68,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setCookie('authToken', response.token);
       }
       
-      // Redireciona para a página original se especificada
-      const redirectTo = searchParams.get('redirect') || '/home';
-      router.push(redirectTo);
+      // Redireciona para o dashboard após login
+      router.push('/dashboard');
     } catch (error) {
       throw error;
     }

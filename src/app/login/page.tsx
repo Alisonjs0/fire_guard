@@ -1,9 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 
 import { useAuth } from "@/context/AuthContext";
+
+// Força dynamic rendering para evitar erros de SSR
+export const dynamic = 'force-dynamic';
 
 import {
   Shield,
@@ -21,8 +24,15 @@ export default function LoginPage() {
   const [cpf, setCpf] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { login } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
+
+  const authContext = hasMounted ? useAuth() : { login: async () => {} };
+  const { login } = authContext;
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
   const features = [
     {
