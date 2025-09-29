@@ -17,10 +17,10 @@ interface LoginResponse {
   message?: string;
 }
 
-const login = async (cpf: any, password: any): Promise<LoginResponse> => {
-  console.log("Enviando para login:", cpf.replace(/\D/g, ''), password);
+const login = async (email: any, password: any): Promise<LoginResponse> => {
+  console.log("Enviando para login:", email, password);
   const response = await api.post("/auth/login" ,{
-    cpf: cpf.replace(/\D/g, ''),
+    email: email,
     password: password,
   }, { headers: { "Content-Type": "application/json" } });
 

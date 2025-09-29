@@ -21,7 +21,7 @@ import {
 } from "lucide-react";
 
 export default function LoginPage() {
-  const [cpf, setCpf] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -71,20 +71,20 @@ export default function LoginPage() {
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Tentando logar com:", cpf, password);
-    if (!cpf || !password) {
-      toast.error("Preencha os campos de CPF e senha.");
+    console.log("Tentando logar com:", email, password);
+    if (!email || !password) {
+      toast.error("Preencha os campos de email e senha.");
       return;
     }
 
     setIsSubmitting(true);
 
     try {
-      await login(cpf, password);
+      await login(email, password);
       toast.success("Login realizado com sucesso!");
     } catch (err: any) {
       console.error("Erro no login:", err); // Adicione esta linha
-      toast.error("CPF ou senha inválidos. Por favor, tente novamente.");
+      toast.error("Email ou senha inválidos. Por favor, tente novamente.");
     } finally {
       setIsSubmitting(false);
     }
@@ -198,17 +198,18 @@ export default function LoginPage() {
 
                 <label
                   className="mb-1 font-semibold text-[#2F4858] text-md"
-                  htmlFor="cpf"
+                  htmlFor="email"
                 >
-                  CPF:
+                  Email:
                 </label>
                 <input
-                  id="cpf"
-                  type="text"
-                  name="cpf"
-                  value={cpf}
-                  onChange={(e) => setCpf(e.target.value)}
+                  id="email"
+                  type="email"
+                  name="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="mb-3 p-3 py-4 border border-red-300 rounded focus:outline-none focus:ring-2 focus:ring-red-600 text-md h-8"
+                  placeholder="seu@email.com"
                 />
 
                 <label
