@@ -1,5 +1,5 @@
 import { jwtDecode, JwtPayload } from "jwt-decode";
-import api from "@/api/axios/axios";
+import api from "../api/axios/axios";
 
 const TOKEN_KEY = "authToken";
 

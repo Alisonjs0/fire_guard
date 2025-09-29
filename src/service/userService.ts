@@ -1,4 +1,4 @@
-import api from "@/api/axios/axios";
+import api from "../api/axios/axios";
 import authService from "@/service/authService";
 
 const getMyProfile = async () => {

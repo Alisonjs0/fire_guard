@@ -4,7 +4,7 @@ import { Toaster } from "react-hot-toast";
 import "./globals.css";
 import Layout from "../components/Layout";
 
-import { AuthProvider as AuthContext } from "@/context/AuthProviderWrapper";
+import { AuthProvider as AuthContext } from "../context/AuthProviderWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 

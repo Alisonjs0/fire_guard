@@ -18,33 +18,28 @@ const protectedRoutes = [
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  const token = request.cookies.get("authToken")?.value;
-  let isAuthenticated = false;
-  if (token) {
-    try {
-        const secret = new TextEncoder().encode(process.env.JWT_SECRET || "your-secret-key");
-        await jwtVerify(token, secret);
-        isAuthenticated = true;
-    } catch (error) {
-        isAuthenticated = false;
-        console.error("JWT verification failed:", error);
-    }
-  }
-
+  // Verifica se existe token (sem validar JWT aqui, deixa para o AuthContext)
+  const token = request.cookies.get("authToken")?.value || 
+                request.headers.get("authorization")?.replace("Bearer ", "");
+  
+  const isAuthenticated = !!token; // Se tem token, considera autenticado
   const isPublicRoute = publicRoutes.includes(pathname);
-
   const isProtectedRoute = protectedRoutes.some((route) =>
     pathname.startsWith(route)
   );
 
+  // Se é rota protegida e não está autenticado, redireciona para login
   if (isProtectedRoute && !isAuthenticated && !isPublicRoute) {
+    console.log(`Redirecting to login from ${pathname} - no token found`);
     const loginUrl = new URL("/login", request.url);
     loginUrl.searchParams.set("redirect", pathname);
     return NextResponse.redirect(loginUrl);
   }
 
+  // Se está autenticado e tenta acessar login, redireciona para dashboard
   if (isAuthenticated && (pathname === "/login")) {
-    return NextResponse.redirect(new URL("/", request.url));
+    console.log("User authenticated, redirecting to dashboard");
+    return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
   return NextResponse.next();

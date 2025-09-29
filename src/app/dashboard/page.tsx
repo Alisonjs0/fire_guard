@@ -44,7 +44,7 @@ import {
 } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
-import MainHeader from "@/components/MainHeader";
+import MainHeader from "../../components/MainHeader";
 
 const Dashboard: React.FC = () => {
   const { data: extintores } = useCRUD<Extintor>("extintores");

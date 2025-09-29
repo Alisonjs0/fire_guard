@@ -1,26 +1,14 @@
-
-import type { NextConfig } from 'next'
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   output: 'standalone',
-  // Configurações experimentais
+  // Força o reprocessamento do CSS em desenvolvimento
   experimental: {
     optimizePackageImports: ['lucide-react'],
-    // Desabilita turbo temporariamente para resolver problemas do Tailwind
-    turbo: {
-      rules: {
-        '*.css': {
-          loaders: ['postcss-loader'],
-        },
-      },
-    },
   },
   eslint: {
-    // Desabilita ESLint durante o build para resolver problemas de configuração
     ignoreDuringBuilds: true,
   },
   typescript: {
-    // Desabilita verificação de tipos durante o build se necessário
     ignoreBuildErrors: false,
   },
   images: {
@@ -40,6 +28,14 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // Configuração específica para garantir que o CSS seja processado
+  webpack: (config, { dev, isServer }) => {
+    if (dev && !isServer) {
+      // Força o reload do CSS em desenvolvimento
+      config.cache = false;
+    }
+    return config;
+  },
 }
 
-export default nextConfig
+module.exports = nextConfig

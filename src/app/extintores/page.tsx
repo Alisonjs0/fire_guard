@@ -15,7 +15,7 @@ import {
   FireExtinguisher
 } from "lucide-react";
 import { useCRUD } from "../../hooks/useCRUD";
-import { Extintor, Unidade } from "../../types";
+import { Extinguisher } from "../../types/entities";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import MainHeader from "@/components/MainHeader";
@@ -52,13 +52,12 @@ const ExtintoresPage: React.FC = () => {
     }
   };
 
-  const getUnidadeNome = (unidadeId: string) => {
-    const unidade = unidades.find((u) => u._id === unidadeId);
-    return unidade?.nome || "Unidade não encontrada";
+  const getUnidadeNome = (unidadeId: string | number) => {
+    return unidadeId ? unidadeId.toString() : "Unidade não informada";
   };
 
-  const getTipoAgenteText = (tipo: string) => {
-    switch (tipo) {
+  const getTipoAgenteText = (agentType: string) => {
+    switch (agentType) {
       case "po_abc":
         return "Pó ABC";
       case "co2":
@@ -70,80 +69,80 @@ const ExtintoresPage: React.FC = () => {
       case "po_quimico":
         return "Pó Químico";
       default:
-        return tipo;
+        return agentType;
     }
   };
+
   const {
     data: extintores,
     loading,
     createRecord,
     updateRecord,
     deleteRecord,
-  } = useCRUD<Extintor>("extintores");
-  const { data: unidades } = useCRUD<Unidade>("unidades");
+  } = useCRUD<Extinguisher>("extinguisher");
   const [showForm, setShowForm] = useState(false);
-  const [editingExtintor, setEditingExtintor] = useState<Extintor | null>(null);
+  const [editingExtintor, setEditingExtintor] = useState<Extinguisher | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [tipoFilter, setTipoFilter] = useState("");
 
-  const filteredExtintores = extintores.filter((extintor) => {
+  // Filtrar extintores
+  const filteredExtintores = extintores.filter((extintor: Extinguisher) => {
     const matchesSearch =
       extintor.numeroIdentificacao
         .toLowerCase()
         .includes(searchTerm.toLowerCase()) ||
       extintor.localizacao.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = !statusFilter || extintor.status === statusFilter;
-    const matchesTipo = !tipoFilter || extintor.tipoAgente === tipoFilter;
+    const matchesTipo = !tipoFilter || extintor.agentType === tipoFilter;
     return matchesSearch && matchesStatus && matchesTipo;
   });
 
+  // Função para enviar o formulário
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
 
+    // Mapeando dados do formulário para a estrutura do backend
     const extintorData = {
       numeroIdentificacao: formData.get("numeroIdentificacao") as string,
-      unidadeId: formData.get("unidadeId") as string,
+      unidadeId: Number(formData.get("unidadeId") as string),
       localizacao: formData.get("localizacao") as string,
-      tipoAgente: formData.get("tipoAgente") as string,
-      classeIncendio: formData.get("classeIncendio") as string,
-      capacidade: formData.get("capacidade") as string,
-      dataFabricacao: formData.get("dataFabricacao") as string,
-      dataValidade: formData.get("dataValidade") as string,
+      agentType: formData.get("tipoAgente") as string,
+      fireClass: formData.get("classeIncendio") as string,
+      capacity: Number(formData.get("capacidade") as string),
+      manufacturingDate: new Date(formData.get("dataFabricacao") as string),
+      validate: new Date(formData.get("dataValidade") as string),
       fabricante: formData.get("fabricante") as string,
       status: formData.get("status") as string,
-      observacoes: formData.get("observacoes") as string,
-      creator: "admin",
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      observacoes: formData.get("observacoes") as string || "",
     };
 
     try {
-      //   if (editingExtintor) {
-      //     await updateRecord(editingExtintor._id, { ...extintorData, updatedAt: new Date().toISOString() })
-      //   } else {
-      //     await createRecord(extintorData)
-      //   }
-      //   setShowForm(false)
-      //   setEditingExtintor(null)
+      if (editingExtintor && editingExtintor.id) {
+        await updateRecord(editingExtintor.id, extintorData);
+      } else {
+        await createRecord(extintorData);
+      }
+      setShowForm(false);
+      setEditingExtintor(null);
     } catch (error) {
-      // Erro já tratado no hook
+      console.error('Erro ao salvar extintor:', error);
     }
   };
 
-  const handleEdit = (extintor: Extintor) => {
+  const handleEdit = (extintor: Extinguisher) => {
     setEditingExtintor(extintor);
     setShowForm(true);
   };
 
-  const handleDelete = async (extintor: Extintor) => {
+  const handleDelete = async (extintor: Extinguisher) => {
     if (
       confirm(
         `Tem certeza que deseja excluir o extintor ${extintor.numeroIdentificacao}?`
       )
     ) {
-      await deleteRecord(extintor._id);
+      await deleteRecord(extintor.id!);
     }
   };
 
@@ -232,9 +231,9 @@ const ExtintoresPage: React.FC = () => {
           transition={{ delay: 0.1 }}
           className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6"
         >
-          {filteredExtintores.map((extintor, index) => (
+          {filteredExtintores.map((extintor: Extinguisher, index: number) => (
             <motion.div
-              key={extintor._id}
+              key={extintor.id}
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.05 * index }}
@@ -282,16 +281,16 @@ const ExtintoresPage: React.FC = () => {
                   <div>
                     <span className="text-gray-500">Tipo:</span>
                     <p className="font-medium">
-                      {getTipoAgenteText(extintor.tipoAgente)}
+                      {getTipoAgenteText(extintor.agentType)}
                     </p>
                   </div>
                   <div>
                     <span className="text-gray-500">Classe:</span>
-                    <p className="font-medium">{extintor.classeIncendio}</p>
+                    <p className="font-medium">{extintor.fireClass}</p>
                   </div>
                   <div>
                     <span className="text-gray-500">Capacidade:</span>
-                    <p className="font-medium">{extintor.capacidade}</p>
+                    <p className="font-medium">{extintor.capacity}</p>
                   </div>
                   <div>
                     <span className="text-gray-500">Fabricante:</span>
@@ -303,7 +302,7 @@ const ExtintoresPage: React.FC = () => {
                     <Calendar className="w-4 h-4" />
                     <span>
                       Validade:{" "}
-                      {format(new Date(extintor.dataValidade), "dd/MM/yyyy", {
+                      {format(new Date(extintor.validate), "dd/MM/yyyy", {
                         locale: ptBR,
                       })}
                     </span>
@@ -370,19 +369,14 @@ const ExtintoresPage: React.FC = () => {
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Unidade *
                       </label>
-                      <select
+                      <input
                         name="unidadeId"
+                        type="text"
                         defaultValue={editingExtintor?.unidadeId || ''}
                         required
                         className="input-field"
-                      >
-                        <option value="">Selecione uma unidade</option>
-                        {unidades.map(unidade => (
-                          <option key={unidade._id} value={unidade._id}>
-                            {unidade.nome}
-                          </option>
-                        ))}
-                      </select>
+                        placeholder="ID ou nome da unidade"
+                      />
                     </div>
                     
                     <div className="md:col-span-2">
@@ -405,7 +399,7 @@ const ExtintoresPage: React.FC = () => {
                       </label>
                       <select
                         name="tipoAgente"
-                        defaultValue={editingExtintor?.tipoAgente || ''}
+                        defaultValue={editingExtintor?.agentType || ''}
                         required
                         className="input-field"
                       >
@@ -424,7 +418,7 @@ const ExtintoresPage: React.FC = () => {
                       </label>
                       <select
                         name="classeIncendio"
-                        defaultValue={editingExtintor?.classeIncendio || ''}
+                        defaultValue={editingExtintor?.fireClass || ''}
                         required
                         className="input-field"
                       >
@@ -445,7 +439,7 @@ const ExtintoresPage: React.FC = () => {
                       <input
                         name="capacidade"
                         type="text"
-                        defaultValue={editingExtintor?.capacidade || ''}
+                        defaultValue={editingExtintor?.capacity || ''}
                         required
                         className="input-field"
                         placeholder="Ex: 4kg, 6L"
@@ -473,8 +467,8 @@ const ExtintoresPage: React.FC = () => {
                       <input
                         name="dataFabricacao"
                         type="date"
-                        defaultValue={editingExtintor?.dataFabricacao ? 
-                          new Date(editingExtintor.dataFabricacao).toISOString().split('T')[0] : ''
+                        defaultValue={editingExtintor?.manufacturingDate ? 
+                          new Date(editingExtintor.manufacturingDate).toISOString().split('T')[0] : ''
                         }
                         required
                         className="input-field"
@@ -488,8 +482,8 @@ const ExtintoresPage: React.FC = () => {
                       <input
                         name="dataValidade"
                         type="date"
-                        defaultValue={editingExtintor?.dataValidade ? 
-                          new Date(editingExtintor.dataValidade).toISOString().split('T')[0] : ''
+                        defaultValue={editingExtintor?.validate ? 
+                          new Date(editingExtintor.validate).toISOString().split('T')[0] : ''
                         }
                         required
                         className="input-field"

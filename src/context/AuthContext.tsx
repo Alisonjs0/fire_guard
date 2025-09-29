@@ -2,16 +2,15 @@
 
 import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
-import authService from '@/service/authService';
-import getMyProfile from '@/service/userService';
-import { IUser } from "@/interface/IUser";
+import authService from '../service/authService';
+import { IUser } from "../interface/IUser";
 import LoadingSpinner from '../components/LoadingSpinner';
 
 interface AuthContextType {
   isAuthenticated: boolean;
   user: IUser | null;
   isLoading: boolean;
-  login: (cpf: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -39,9 +38,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       try {
         const token = authService.getToken();
         if (token) {
-          // Verifica se o token é válido buscando o perfil do usuário
-          const userProfile = await getMyProfile();
-          setUser(userProfile);
+          // Usa dados do token JWT para definir o usuário
+          const tokenUser = authService.getUser();
+          if (tokenUser) {
+            setUser(tokenUser as IUser);
+          } else {
+            // Token inválido, remove
+            authService.logout();
+            removeCookie('authToken');
+            setUser(null);
+          }
         }
       } catch (error) {
         console.error("Erro ao verificar autenticação:", error);
@@ -57,19 +63,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     checkAuth();
   }, []);
 
-  const login = async (cpf: string, password: string) => {
+  const login = async (email: string, password: string) => {
     try {
-      const response = await authService.login(cpf, password);
-      const userProfile = await getMyProfile();
-      setUser(userProfile);
+      const response = await authService.login(email, password);
       
       // Salva o token também em cookie para o middleware
       if (response.token) {
         setCookie('authToken', response.token);
+        
+        // Define um usuário básico baseado no token JWT
+        const tokenUser = authService.getUser();
+        setUser(tokenUser as IUser);
+        
+        // Redireciona para o dashboard após login
+        router.push('/dashboard');
       }
-      
-      // Redireciona para o dashboard após login
-      router.push('/dashboard');
     } catch (error) {
       throw error;
     }

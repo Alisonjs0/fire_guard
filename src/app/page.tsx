@@ -16,7 +16,7 @@ import {
   House,
   FireExtinguisher
 } from "lucide-react";
-import MainHeader from "@/components/MainHeader";
+import MainHeader from "../components/MainHeader";
 
 const Dashboard: React.FC = () => {
   const modules = [

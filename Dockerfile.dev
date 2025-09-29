@@ -1,0 +1,24 @@
+# Dockerfile para desenvolvimento com hot reload
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Instalar dependências
+COPY package*.json ./
+RUN npm install
+
+# Copiar arquivos de configuração essenciais
+COPY postcss.config.mjs ./
+COPY tailwind.config.ts ./
+COPY next.config.ts ./
+COPY tsconfig.json ./
+
+# Configurar ambiente de desenvolvimento
+ENV NODE_ENV=development
+ENV NEXT_TELEMETRY_DISABLED=1
+
+# Expor porta
+EXPOSE 3000
+
+# Comando direto para desenvolvimento
+CMD ["npm", "run", "dev"]
