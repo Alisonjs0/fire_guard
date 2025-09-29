@@ -27,7 +27,15 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
 
-  const authContext = hasMounted ? useAuth() : { login: async () => {} };
+  // Sempre chamar hooks na mesma ordem: useAuth() pode lançar se não houver provider
+  // (AuthProviderWrapper retorna children sem provider durante SSR), então usamos
+  // try/catch para capturar essa situação e prover um fallback seguro.
+  let authContext: any;
+  try {
+    authContext = useAuth();
+  } catch (e) {
+    authContext = { login: async () => {}, logout: () => {}, isAuthenticated: false };
+  }
   const { login } = authContext;
 
   useEffect(() => {

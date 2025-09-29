@@ -1,3 +1,59 @@
+// ===== TIPOS SPRING BOOT (NOVOS) =====
+export interface User {
+  id?: number
+  name: string
+  email: string
+  cpf: string
+  password?: string
+  roles: string
+  position: string
+  createdDate?: string
+}
+
+export interface Extinguisher {
+  id?: number;
+  numeroIdentificacao: string;
+  localizacao: string;
+  agentType: string;
+  fireClass: string;
+  capacity: string;
+  validate: Date;
+  manufacturingDate: Date;
+  fabricante: string;
+  status: string;
+  observacoes: string;
+  unidadeId: number;
+}
+
+export interface Alert {
+  id?: number
+  message: string
+  type: string
+  severity: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL'
+  createdDate?: string
+  resolved?: boolean
+}
+
+export interface Inspection {
+  id?: number
+  date: string
+  inspector: string
+  status: 'APPROVED' | 'REJECTED' | 'PENDING'
+  observations?: string
+  extinguisherId?: number
+}
+
+export interface Maintenance {
+  id?: number
+  date: string
+  type: string
+  description: string
+  technician: string
+  cost?: number
+  extinguisherId?: number
+}
+
+// ===== TIPOS LUMI (LEGADOS) =====
 export interface Unidade {
   _id: string;
   nome: string;

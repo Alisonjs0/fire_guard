@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   Plus,
@@ -15,7 +15,7 @@ import {
   FireExtinguisher
 } from "lucide-react";
 import { useCRUD } from "../../hooks/useCRUD";
-import { Extinguisher } from "../../types/entities";
+import { Extinguisher } from "../../types";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import MainHeader from "@/components/MainHeader";
@@ -80,19 +80,26 @@ const ExtintoresPage: React.FC = () => {
     updateRecord,
     deleteRecord,
   } = useCRUD<Extinguisher>("extinguisher");
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
   const [showForm, setShowForm] = useState(false);
   const [editingExtintor, setEditingExtintor] = useState<Extinguisher | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [tipoFilter, setTipoFilter] = useState("");
 
-  // Filtrar extintores
-  const filteredExtintores = extintores.filter((extintor: Extinguisher) => {
-    const matchesSearch =
-      extintor.numeroIdentificacao
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
-      extintor.localizacao.toLowerCase().includes(searchTerm.toLowerCase());
+  // Filtrar extintores (definido de forma segura para evitar campos undefined)
+  const safeExtintores = Array.isArray(extintores) ? extintores : [];
+
+  const filteredExtintores = safeExtintores.filter((extintor: Extinguisher) => {
+    const numero = (extintor.numeroIdentificacao ?? "").toString().toLowerCase();
+    const local = (extintor.localizacao ?? "").toString().toLowerCase();
+    const term = searchTerm.toLowerCase();
+
+    const matchesSearch = term === "" || numero.includes(term) || local.includes(term);
     const matchesStatus = !statusFilter || extintor.status === statusFilter;
     const matchesTipo = !tipoFilter || extintor.agentType === tipoFilter;
     return matchesSearch && matchesStatus && matchesTipo;
@@ -110,7 +117,7 @@ const ExtintoresPage: React.FC = () => {
       localizacao: formData.get("localizacao") as string,
       agentType: formData.get("tipoAgente") as string,
       fireClass: formData.get("classeIncendio") as string,
-      capacity: Number(formData.get("capacidade") as string),
+      capacity: formData.get("capacidade") as string,
       manufacturingDate: new Date(formData.get("dataFabricacao") as string),
       validate: new Date(formData.get("dataValidade") as string),
       fabricante: formData.get("fabricante") as string,
@@ -131,11 +138,6 @@ const ExtintoresPage: React.FC = () => {
     }
   };
 
-  const handleEdit = (extintor: Extinguisher) => {
-    setEditingExtintor(extintor);
-    setShowForm(true);
-  };
-
   const handleDelete = async (extintor: Extinguisher) => {
     if (
       confirm(
@@ -146,7 +148,12 @@ const ExtintoresPage: React.FC = () => {
     }
   };
 
-  if (loading) {
+  const handleEdit = (extintor: Extinguisher) => {
+    setEditingExtintor(extintor);
+    setShowForm(true);
+  };
+
+  if (!hasMounted || loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex justify-center items-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>

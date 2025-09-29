@@ -33,8 +33,8 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <head />
-      <AuthContext>
-        <body className={inter.className}>
+      <body className={inter.className}>
+        <AuthContext>
           <Toaster
             position="top-right"
             toastOptions={{
@@ -56,8 +56,8 @@ export default function RootLayout({
             }}
           />
           <Layout>{children}</Layout>
-        </body>
-      </AuthContext>
+        </AuthContext>
+      </body>
     </html>
   );
 }
